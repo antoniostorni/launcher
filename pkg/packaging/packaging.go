@@ -47,6 +47,7 @@ type PackageOptions struct {
 	NotaryURL         string
 	MirrorURL         string
 	NotaryPrefix      string
+	SpecifiedIdentifier string
 
 	AppleSigningKey     string   // apple signing key
 	WindowsUseSigntool  bool     // whether to use signtool.exe on windows
@@ -103,6 +104,15 @@ func (p *PackageOptions) Build(ctx context.Context, packageWriter io.Writer, tar
 		return errors.Wrap(err, "creating flag file")
 	}
 	defer flagFile.Close()
+
+    // Osquery flagfile creation
+	osQueryflagFilePath := filepath.Join(p.confDir, "osquery.flags")
+	osQueryflagFile, err := os.Create(filepath.Join(p.packageRoot, osQueryflagFilePath))
+	if err != nil {
+		return errors.Wrap(err, "creating osquery flag file")
+	}
+	defer osQueryflagFile.Close()
+
 
 	launcherMapFlags := map[string]string{
 		"hostname":           p.Hostname,
@@ -187,6 +197,16 @@ func (p *PackageOptions) Build(ctx context.Context, packageWriter io.Writer, tar
 	// Wixtoolset seems to get unhappy if the flagFile is open, and since
 	// we're done writing it, may as well close it.
 	flagFile.Close()
+
+    if _, err := osQueryflagFile.WriteString("--host_identifier=specified\n"); err != nil {
+        return errors.Wrapf(err, "failed to write write to osquery flagfile")
+    }
+
+    if _, err := osQueryflagFile.WriteString(fmt.Sprintf("--specified_identifier=%s\n", p.SpecifiedIdentifier)); err != nil {
+        return errors.Wrapf(err, "failed to write write to osquery flagfile")
+    }
+
+    osQueryflagFile.Close()
 
 	// Unless we're omitting the secret, write it into the package.
 	// Note that we _always_ set KOLIDE_LAUNCHER_ENROLL_SECRET_PATH

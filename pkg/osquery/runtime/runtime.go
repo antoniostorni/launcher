@@ -138,7 +138,7 @@ func createOsquerydCommand(osquerydBinary string, paths *osqueryFilePaths, confi
 		"--disable_distributed=false",
 		"--distributed_interval=5",
 		"--pack_delimiter=:",
-		"--host_identifier=uuid",
+        "--flagfile=/etc/launcher/osquery.flags",
 		"--force=true",
 		"--disable_watchdog",
 		"--utc",

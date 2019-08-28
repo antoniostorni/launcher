@@ -154,6 +154,12 @@ func runMake(args []string) error {
 			env.String("NOTARY_PREFIX", ""),
 			"The prefix for Notary path that contains the collections",
 		)
+        flSpecifiedIdentifier = flagset.String(
+			"specified_identifier",
+			env.String("SPECIFIED_IDENTIFIER", ""),
+			"Specified Identifier",
+		)
+
 	)
 
 	flagset.Usage = usageFor(flagset, "package-builder make [flags]")
@@ -219,6 +225,7 @@ func runMake(args []string) error {
 		NotaryURL:         *flNotaryURL,
 		MirrorURL:         *flMirrorURL,
 		NotaryPrefix:      *flNotaryPrefix,
+		SpecifiedIdentifier: *flSpecifiedIdentifier,
 	}
 
 	outputDir := *flOutputDir

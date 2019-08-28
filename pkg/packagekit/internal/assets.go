@@ -115,7 +115,7 @@ func internalAssetsMainWxs() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "internal/assets/main.wxs", size: 1781, mode: os.FileMode(420), modTime: time.Unix(1552328656, 0)}
+	info := bindataFileInfo{name: "internal/assets/main.wxs", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

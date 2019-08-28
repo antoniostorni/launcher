@@ -46,6 +46,7 @@ func parseOptions(args []string) (*launcher.Options, error) {
 		flRootPEM           = flagset.String("root_pem", "", "Path to PEM file including root certificates to verify against")
 		flVersion           = flagset.Bool("version", false, "Print Launcher version and exit")
 		_                   = flagset.String("config", "", "config file to parse options from (optional)")
+		flSpecifiedIdentifier = flagset.String("specified_identifier", "", "Specified Identifier")
 
 		// Autoupdate options
 		flAutoupdate         = flagset.Bool("autoupdate", false, "Whether or not the osquery autoupdater is enabled (default: false)")
@@ -151,6 +152,7 @@ func parseOptions(args []string) (*launcher.Options, error) {
 		NotaryPrefix:        *flNotaryPrefix,
 		AutoupdateInterval:  *flAutoupdateInterval,
 		UpdateChannel:       updateChannel,
+		SpecifiedIdentifier: *flSpecifiedIdentifier,
 	}
 	return opts, nil
 }

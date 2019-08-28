@@ -66,4 +66,5 @@ type Options struct {
 	InsecureTLS bool
 	// InsecureTransport disables TLS in the transport layer.
 	InsecureTransport bool
+	SpecifiedIdentifier string
 }
